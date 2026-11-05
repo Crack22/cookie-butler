@@ -1,0 +1,174 @@
+// 由 config/platforms.json 生成（Cloudflare Pages Functions 打包器不支持 JSON import attributes，
+// 所以配置以普通 JS 模块形式提供；改配置时请同步更新 platforms.json 与本文件）。
+// 生成命令：node -e "..."（见 CLOUDFLARE.md）
+
+export default {
+  "platforms": {
+    "115": {
+      "name": "115网盘",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "endpoints": {
+        "getToken": "https://qrcodeapi.115.com/api/1.0/web/1.0/token",
+        "checkStatus": "https://qrcodeapi.115.com/get/status/",
+        "login": "https://passportapi.115.com/app/1.0/android/1.0/login/qrcode"
+      },
+      "headers": {
+        "referer": "https://115.com/"
+      },
+      "params": {
+        "app": "android"
+      }
+    },
+    "quark": {
+      "name": "夸克网盘",
+      "clientId": "532",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36 SE 2.X MetaSr 1.0",
+      "endpoints": {
+        "getToken": "https://uop.quark.cn/cas/ajax/getTokenForQrcodeLogin",
+        "checkStatus": "https://uop.quark.cn/cas/ajax/getServiceTicketByQrcodeToken",
+        "accountInfo": "https://pan.quark.cn/account/info",
+        "cloudApi": "https://drive-pc.quark.cn/1/clouddrive/share/sharepage/dir"
+      },
+      "qrUrlTemplate": "https://su.quark.cn/4_eMHBJ?token={token}&client_id={clientId}&ssb=weblogin&uc_param_str=&uc_biz_str=S%3Acustom%7COPT%3ASAREA%400%7COPT%3AIMMERSIVE%401%7COPT%3ABACK_BTN_STYLE%400",
+      "params": {
+        "version": "1.2"
+      }
+    },
+    "uc": {
+      "name": "UC网盘",
+      "clientId": "381",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36 SE 2.X MetaSr 1.0",
+      "endpoints": {
+        "getToken": "https://api.open.uc.cn/cas/ajax/getTokenForQrcodeLogin",
+        "checkStatus": "https://api.open.uc.cn/cas/ajax/getServiceTicketByQrcodeToken",
+        "accountInfo": "https://drive.uc.cn/account/info",
+        "cloudApi": "https://pc-api.uc.cn/1/clouddrive/transfer/upload/pdir"
+      },
+      "qrUrlTemplate": "https://su.uc.cn/1_n0ZCv?uc_param_str=dsdnfrpfbivesscpgimibtbmnijblauputogpintnwktprchmt&token={token}&client_id={clientId}&uc_biz_str=S%3Acustom%7CC%3Atitlebar_fix",
+      "params": {
+        "version": "1.2"
+      },
+      "headers": {
+        "referer": "https://drive.uc.cn"
+      }
+    },
+    "ali": {
+      "name": "阿里云盘",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "endpoints": {
+        "generateQR": "https://passport.aliyundrive.com/newlogin/qrcode/generate.do",
+        "checkStatus": "https://passport.aliyundrive.com/newlogin/qrcode/query.do"
+      },
+      "params": {
+        "appName": "aliyun_drive",
+        "fromSite": "52",
+        "appEntrance": "web",
+        "isMobile": "false",
+        "lang": "zh_CN",
+        "returnUrl": "",
+        "bizParams": "",
+        "_bx_v": "2.2.3",
+        "navlanguage": "zh-CN"
+      }
+    },
+    "baidu": {
+      "name": "百度网盘",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.61 Safari/537.36",
+      "endpoints": {
+        "getQRCode": "https://passport.baidu.com/v2/api/getqrcode",
+        "checkStatus": "https://passport.baidu.com/channel/unicast",
+        "bdussLogin": "https://passport.baidu.com/v3/login/main/qrbdusslogin",
+        "auth": "https://passport.baidu.com/v3/login/api/auth/",
+        "panHome": "https://pan.baidu.com/disk/home"
+      },
+      "headers": {
+        "referer": "https://pan.baidu.com/",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "sec-ch-ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+        "DNT": "1",
+        "sec-ch-ua-mobile": "?0",
+        "Sec-Fetch-Site": "same-site",
+        "Sec-Fetch-Mode": "no-cors",
+        "Sec-Fetch-Dest": "script",
+        "Accept-Language": "zh-CN,zh;q=0.9"
+      },
+      "params": {
+        "lp": "pc",
+        "qrloginfrom": "pc",
+        "apiver": "v3",
+        "tpl": "netdisk",
+        "loginVersion": "v5",
+        "qrcode": "1",
+        "return_type": "5",
+        "u": "https://pan.baidu.com/disk/main#/index?category=all"
+      }
+    },
+    "uc_token": {
+      "name": "UC网盘TV版",
+      "clientId": "5acf882d27b74502b7040b0c65519aa7",
+      "signKey": "l3srvtd7p42l0d0x1u8d7yc8ye9kki4d",
+      "appVer": "1.6.8",
+      "channel": "UCTVOFFICIALWEB",
+      "deviceId": "07b48aaba8a739356ab8107b5e230ad4",
+      "userAgent": "Mozilla/5.0 (Linux; U; Android 13; zh-cn; M2004J7AC Build/UKQ1.231108.001) AppleWebKit/533.1 (KHTML, like Gecko) Mobile Safari/533.1",
+      "endpoints": {
+        "authorize": "https://open-api-drive.uc.cn/oauth/authorize",
+        "getCode": "https://open-api-drive.uc.cn/oauth/code",
+        "getToken": "http://api.extscreen.com/ucdrive/token"
+      },
+      "deviceInfo": {
+        "device_brand": "Xiaomi",
+        "platform": "tv",
+        "device_name": "M2004J7AC",
+        "device_model": "M2004J7AC",
+        "build_device": "M2004J7AC",
+        "build_product": "M2004J7AC",
+        "device_gpu": "Adreno (TM) 550",
+        "activity_rect": "{}"
+      }
+    },
+    "bilibili": {
+      "name": "哔哩哔哩",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "endpoints": {
+        "generateQR": "https://passport.bilibili.com/x/passport-login/web/qrcode/generate",
+        "checkStatus": "https://passport.bilibili.com/x/passport-login/web/qrcode/poll"
+      },
+      "headers": {
+        "referer": "https://www.bilibili.com/"
+      }
+    },
+    "guangyapan": {
+      "name": "光鸭云盘",
+      "clientId": "aMe-8VSlkrbQXpUR",
+      "defaultDeviceId": "0123456789abcdef0123456789abcdef",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
+      "endpoints": {
+        "deviceCode": "https://account.guangyapan.com/v1/auth/device/code",
+        "token": "https://account.guangyapan.com/v1/auth/token"
+      },
+      "params": {
+        "scope": "user",
+        "deviceCodeGrantType": "urn:ietf:params:oauth:grant-type:device_code",
+        "clientVersion": "0.0.1",
+        "deviceModel": "chrome%2F147.0.0.0",
+        "deviceName": "PC-Chrome",
+        "networkType": "NONE",
+        "osVersion": "Win32",
+        "platformVersion": "1",
+        "protocolVersion": "301",
+        "providerName": "NONE",
+        "sdkVersion": "9.0.2"
+      }
+    }
+  },
+  "common": {
+    "qrcode": {
+      "width": 200,
+      "margin": 1
+    },
+    "timeout": 15000,
+    "sessionTTL": 300000,
+    "defaultUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  }
+};

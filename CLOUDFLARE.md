@@ -22,11 +22,13 @@
 | `functions/api/qrcode.js`（新增） | Pages Functions 风格：`onRequestPost(context)` 返回 `Response`，处理 `OPTIONS`；响应体与前端期望一致 |
 | `functions/api/check-status.js`（新增） | 同上，对应 `/api/check-status` |
 | `lib/utils/common.js` | `axios` → Web `fetch`（返回 `{ data, headers, status }`，兼容原调用方，包括 `validateStatus`、`responseType: 'arraybuffer'`、`set-cookie`）；删除 `os.networkInterfaces()`；CORS 改为同源 + localhost + `ALLOWED_ORIGINS` 环境变量，不再硬编码部署域名；`Buffer` Base64 → `TextEncoder/TextDecoder` + `atob/btoa`（UTF-8 正确） |
-| `lib/platforms/base.js` | `fs.readFileSync` 读 `config/platforms.json` → 静态 JSON import（`with { type: 'json' }`） |
+| `lib/platforms/base.js` | `fs.readFileSync` 读 `config/platforms.json` → 改读 `config/platforms.js`（由 platforms.json 生成的普通 JS 模块，内容完全一致）；**不用 import attributes**，因为 Cloudflare 打包器（wrangler 3.114.17）报 `Expected ";" but found "with"` |
+| `lib/utils/hash.js`（新增）+ `lib/utils/common.js` | `crypto-js` 已彻底去掉：`generateMD5` / `generateSHA256` 改用本仓库纯 JS 实现（`lib/utils/hash.js`，MD5: RFC 1321，SHA256: FIPS 180-4，UTF-8 编码），签名 `generateMD5(text)` / `generateSHA256(text)` / `generateDeviceID` / `generateReqId` / `generateXPanToken` 不变；因为部署时构建命令为空、无 npm install，`node_modules` 不存在，`import CryptoJS from 'crypto-js'` 在打包时报 `Could not resolve "crypto-js"` |
+| `config/platforms.js`（新增） | 由 `config/platforms.json` 生成的普通 JS 模块（`export default {...}`，已校验与 JSON 完全一致）；`config/platforms.json` 保留在仓库中，`telegram/bot.js` 本地仍用 fs 读它，Functions 路径不再 import 它 |
 | `lib/platforms/uc-token.js` | 直接用的 `axios.get` → `httpRequest`，`validateStatus: () => true` 保持不变 |
 | `lib/platforms/baidu.js` | `Buffer.from(...).toString('base64')` → 分块 `btoa` |
 | `lib/platforms/guangyapan.js` | Node `crypto.randomBytes` → Web Crypto `crypto.getRandomValues` |
-| `package.json` | 删除不再使用的 `axios` 依赖；作者栏改成 許諾，MIT 声明保留 |
+| `package.json` | 删除不再使用的 `axios`、`crypto-js` 依赖；作者栏改成 許諾，MIT 声明保留 |
 | `lib/utils/common.js`（补充） | 对象体 + `application/x-www-form-urlencoded` 头时发 `URLSearchParams`，与 axios 行为一致（阿里状态检查靠这个，否则接口不认 JSON 体） |
 
 原版 `api/`（Vercel 路由）和 `dev-server.js`（Express）仍留在仓库中作参考，
@@ -68,7 +70,27 @@ npx wrangler pages dev public --compatibility-date=2025-01-01
 注意：本地/线上都只验证到「二维码生成成功、状态轮询返回结构正常」，
 不做真实扫码登录，不使用任何真实账号。
 
-## 本地验证结果（2026-11-05，沙箱内，见提交前实测）
+## 本地验证结果（2026-11-05，修复构建问题后复测，沙箱内）
+
+- 干净构建：无 `node_modules`、无 `package-lock` 的副本里，
+  `npx wrangler@3.114.17 pages functions build` 输出
+  `✨ Compiled Worker successfully`，0 个错误、0 个警告。
+- `wrangler pages dev` 能跑起静态页 + Functions（静态页 HTTP 200），
+  但沙箱里 workerd 的出站 TLS 会被本地出口代理拦截（`WRONG_VERSION_NUMBER`），
+  所以接口实测改用同一份 Functions 处理器在 Node 里直接调（Node 的 fetch
+  能正常走沙箱代理；线上 Cloudflare 边缘没有这层代理）：
+  哔哩哔哩、夸克、UC、UC Token、阿里、百度、光鸭：二维码生成成功且状态
+  轮询返回 NEW；115：二维码生成成功，状态检查在沙箱里被中断
+  （`This operation was aborted`，同主机 token 接口在沙箱里时好时坏，
+  上一轮也是同样表现，属沙箱网络问题；上线后需在真实 pages.dev 上
+  复测一次 115 的状态检查）。
+- 新哈希实现已对照 Node 原生 crypto 校验：MD5、SHA256、
+  generateDeviceID、generateReqId、generateXPanToken 全部一致；
+  新二维码实现已用 jsQR 解码校验：URL、中文、长串共 5 组全部解码正确。
+- 伪造 sessionKey 调状态检查返回 EXPIRED（不是 500），说明处理器、
+  配置 import、Base64 编解码这条路是通的。
+
+旧验证记录（2026-11-05 较早一轮，修复前，见提交前实测）：
 
 - `wrangler pages dev` 能成功编译并跑起静态页 + Functions（`public/` + `functions/`）。
 - 用同一份 Functions 处理器在 Node 里实测（沙箱的 workerd 会被本地出口代理
