@@ -72,3 +72,6 @@ yarn.lock
 *.js.map
 debug.log
 .ace-tool/
+
+# Wrangler local dev state
+.wrangler/

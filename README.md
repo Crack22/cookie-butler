@@ -1,3 +1,8 @@
+> Cloudflare Pages 移植版：本 Fork 在原版基础上做了 Cloudflare Pages 适配，
+> 只保留扫码获取 Cookie，Telegram 机器人不部署、不启动。
+> 部署与改动说明见 [CLOUDFLARE.md](./CLOUDFLARE.md)。
+> 原项目：[woleigedouer/cookie-butler](https://github.com/woleigedouer/cookie-butler)。
+
 # Cookie Butler
 
 一个企业级多平台二维码Cookie获取工具，支持夸克网盘、UC网盘（Cookie版+Token版）、阿里云盘、115网盘、百度网盘、哔哩哔哩的扫码登录。
