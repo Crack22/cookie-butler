@@ -22,7 +22,7 @@
     "factory-pattern",
     "cors-security"
   ],
-  "author": "Your Name",
+  "author": "許諾",
   "license": "MIT",
   "dependencies": {
     "qrcode": "^1.5.4",

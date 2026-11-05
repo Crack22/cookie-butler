@@ -1,9 +1,8 @@
 # Cookie Butler · Cloudflare Pages 版
 
 > 本仓库是 [woleigedouer/cookie-butler](https://github.com/woleigedouer/cookie-butler)
-> 的 Fork 移植版，原作者与源码归属见原仓库与 package.json（MIT，作者栏原文为
-> "Your Name"）。本移植不声称 許諾 为原作者，只说明这份 Cloudflare 适配改动
-> 是在这个 Fork 里做的。
+> 的 Fork 移植版，Fork 维护：許諾。原项目源码归属见原仓库与 package.json（MIT）。
+> 这份 Cloudflare 适配改动是在这个 Fork 里做的。
 
 ## 与原版的不同
 
@@ -27,7 +26,7 @@
 | `lib/platforms/uc-token.js` | 直接用的 `axios.get` → `httpRequest`，`validateStatus: () => true` 保持不变 |
 | `lib/platforms/baidu.js` | `Buffer.from(...).toString('base64')` → 分块 `btoa` |
 | `lib/platforms/guangyapan.js` | Node `crypto.randomBytes` → Web Crypto `crypto.getRandomValues` |
-| `package.json` | 删除不再使用的 `axios` 依赖；其余（作者、MIT 声明）原样保留 |
+| `package.json` | 删除不再使用的 `axios` 依赖；作者栏改成 許諾，MIT 声明保留 |
 | `lib/utils/common.js`（补充） | 对象体 + `application/x-www-form-urlencoded` 头时发 `URLSearchParams`，与 axios 行为一致（阿里状态检查靠这个，否则接口不认 JSON 体） |
 
 原版 `api/`（Vercel 路由）和 `dev-server.js`（Express）仍留在仓库中作参考，
